@@ -16,12 +16,11 @@ package org.apache.drill.contrib.function;
 */
 
 import io.netty.buffer.DrillBuf;
-import nl.basjes.parse.useragent.UserAgent;
-import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import org.apache.drill.exec.expr.DrillSimpleFunc;
 import org.apache.drill.exec.expr.annotations.FunctionTemplate;
 import org.apache.drill.exec.expr.annotations.Output;
 import org.apache.drill.exec.expr.annotations.Param;
+import org.apache.drill.exec.expr.annotations.Workspace;
 import org.apache.drill.exec.expr.holders.NullableVarCharHolder;
 import org.apache.drill.exec.vector.complex.writer.BaseWriter;
 
@@ -44,7 +43,11 @@ public class ParseUserAgentFunction implements DrillSimpleFunc {
     @Inject
     DrillBuf outBuffer;
 
+    @Workspace
+    nl.basjes.parse.useragent.UserAgentAnalyzer uaa;
+
     public void setup() {
+        uaa = new nl.basjes.parse.useragent.UserAgentAnalyzer();
     }
 
     public void eval() {
@@ -57,9 +60,7 @@ public class ParseUserAgentFunction implements DrillSimpleFunc {
             userAgentString = "";
         }
 
-        UserAgentAnalyzer uaa = new UserAgentAnalyzer();
-
-        UserAgent agent = uaa.parse(userAgentString);
+        nl.basjes.parse.useragent.UserAgent agent = uaa.parse(userAgentString);
 
         for (String fieldName: agent.getAvailableFieldNamesSorted()) {
 
