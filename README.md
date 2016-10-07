@@ -1,4 +1,4 @@
-# drill-useragent-function
+# Drill User Agent Parser
 Drill UDF for parsing User Agent Strings.
 This function is based on Niels Basjes Java library for parsing user agent strings which is available here:  https://github.com/nielsbasjes/yauaa.
 
