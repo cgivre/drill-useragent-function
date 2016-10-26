@@ -33,6 +33,18 @@ The query above returns:
   "DeviceCpu":"Intel"
 }
 ```
+The function returns a Drill map, so you can access any of the fields using Drill's table.map.key notation.  For example, the query below illustrates how to extract a field from this map and summarize it:
+
+```
+SELECT uadata.ua.AgentNameVersion AS Browser,
+COUNT( * ) AS BrowserCount
+FROM (
+   SELECT parse_user_agent( columns[0] ) AS ua
+   FROM dfs.drillworkshop.`user-agents.csv`
+) AS uadata
+GROUP BY uadata.ua.AgentNameVersion
+ORDER BY BrowserCount DESC
+```
 
 ### Installation and Dependencies
 To install this function, first download the contents of this repository and build it using maven.
@@ -49,14 +61,7 @@ Next, you will have to download and build the UA parser.  Navigate out of the fu
 > git clone https://github.com/nielsbasjes/yauaa.git
 > cd yauaa
 > mvn clean package -DskipTests
-> cp <path-to-yauaa>/analyzer/target/yayaa-0.9-SNAPSHOT.jar <drill-path>/jars/3rdparty
+> cp <path-to-yauaa>/analyzer/target/yauaa-0.9-SNAPSHOT.jar <drill-path>/jars/3rdparty
+> cp <path-to-yauaa>/analyzer/target/yauaa-0.9-SNAPSHOT-udf.jar <drill-path>/jars/3rdparty
 > cp <path-to-yauaa>/devtools/target/devtools-0.9-SNAPSHOT.jar <drill-path>/jars/3rdparty
 ```
-Finally, In order for this function to work, in addition to the UA parser, you will need to add the following JARs to `<drill path>/jars/3rdparty`.
-
-* ANTlr Version 4 (http://www.antlr.org/download/antlr-4.5.3-complete.jar)
-* Commons Collections version 4 (http://www.gtlib.gatech.edu/pub/apache//commons/collections/binaries/commons-collections4-4.1-bin.tar.gz)
-* Springframework (http://www.java2s.com/Code/JarDownload/spring/spring-2.0-core.jar.zip)
-* Snakeyaml (http://central.maven.org/maven2/org/yaml/snakeyaml/1.5/snakeyaml-1.5.jar)
-
-Simply download and copy all those .jar files into your `<drill-path>/jars/3rdparty` directory.
