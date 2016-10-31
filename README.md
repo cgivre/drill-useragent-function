@@ -61,7 +61,6 @@ Next, you will have to download and build the UA parser.  Navigate out of the fu
 > git clone https://github.com/nielsbasjes/yauaa.git
 > cd yauaa
 > mvn clean package -DskipTests
-> cp <path-to-yauaa>/analyzer/target/yauaa-0.9-SNAPSHOT.jar <drill-path>/jars/3rdparty
-> cp <path-to-yauaa>/analyzer/target/yauaa-0.9-SNAPSHOT-udf.jar <drill-path>/jars/3rdparty
-> cp <path-to-yauaa>/devtools/target/devtools-0.9-SNAPSHOT.jar <drill-path>/jars/3rdparty
+> cp <path-to-yauaa>/analyzer/target/yauaa-0.11-SNAPSHOT.jar <drill-path>/jars/3rdparty
+> cp <path-to-yauaa>/analyzer/target/yauaa-0.11-SNAPSHOT-udf.jar <drill-path>/jars/3rdparty
 ```
